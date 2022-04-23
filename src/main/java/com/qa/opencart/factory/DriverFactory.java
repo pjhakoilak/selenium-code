@@ -25,7 +25,7 @@ public class DriverFactory {
 	
 	public static ThreadLocal<WebDriver> tlDriver=new ThreadLocal<WebDriver>();
 	
-	public WebDriver init_driver(Properties prop) // We pass here Properties class object here just to get the all the value from Properties class. Else we have to write like  public WebDriver init_driver(String url, String browser....)                                                         
+	public WebDriver init_driver(Properties prop) throws InterruptedException // We pass here Properties class object here just to get the all the value from Properties class. Else we have to write like  public WebDriver init_driver(String url, String browser....)                                                         
 	{
 		String browserName= prop.getProperty("browser");
 	//	highlight=prop.getProperty(highlight).trim();
@@ -40,19 +40,21 @@ public class DriverFactory {
 		}
 		
 		else if (browserName.equalsIgnoreCase("firefox")) {
-			WebDriverManager.chromedriver().setup();
+			WebDriverManager.firefoxdriver().setup();
 		//	driver=new FirefoxDriver(optionsManager.getfirefoxOptins());	
 			tlDriver.set(new FirefoxDriver(optionsManager.getfirefoxOptins()));
 		}
 		
 		else if (browserName.equalsIgnoreCase("edge")) {
-			WebDriverManager.chromedriver().setup();
+			WebDriverManager.edgedriver().setup();
+			tlDriver.set(new EdgeDriver(optionsManager.getEdgeOptions()));
 			driver=new EdgeDriver();
 		}
 		
 		getDriver().manage().deleteAllCookies();
 		getDriver().manage().window().maximize();
 		getDriver().get(prop.getProperty("url"));
+		
 		return getDriver();
 		
 	}
@@ -64,7 +66,7 @@ public class DriverFactory {
 	
 	public Properties init_prop() throws IOException {
 		prop=new Properties();
-		FileInputStream ip=new FileInputStream("C:\\Users\\Prashant jha\\Downloads\\pom\\POMSeries\\src\\test\\resources\\config\\config.properties");
+		FileInputStream ip=new FileInputStream("F:\\EclipseProject\\update\\POMSeries\\src\\test\\resources\\config\\config.properties");
 		prop.load(ip);
 		return prop;
 	}
