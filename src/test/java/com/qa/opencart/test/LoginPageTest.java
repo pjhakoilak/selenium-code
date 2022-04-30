@@ -36,6 +36,6 @@ public class LoginPageTest extends BaseTest
     	Thread.sleep(2000);
     }
     
- //   @Test
+ 
     
 }
